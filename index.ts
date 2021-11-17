@@ -14,7 +14,7 @@ enum RawTile {
   KEY2, LOCK2
 }
 
-interface Tile2 {
+interface Tile {
 isAir: boolean;
 isFlux: boolean;
 isUnbreakable: boolean;
@@ -29,7 +29,7 @@ isKey2: boolean;
 isLock2: boolean;
 }
 
-class Air implements Tile2 {
+class Air implements Tile {
   isAir: boolean = true;
   isFlux: boolean = false;
   isUnbreakable: boolean = false;
@@ -44,7 +44,7 @@ class Air implements Tile2 {
   isLock2: boolean = false;
 }
 
-class Flux implements Tile2 {
+class Flux implements Tile {
   isAir: boolean = false;
   isFlux: boolean = true;
   isUnbreakable: boolean = false;
@@ -59,7 +59,7 @@ class Flux implements Tile2 {
   isLock2: boolean = false;
 }
 
-class Unbreakable implements Tile2 {
+class Unbreakable implements Tile {
   isAir: boolean = false;
   isFlux: boolean = false;
   isUnbreakable: boolean = true;
@@ -74,7 +74,7 @@ class Unbreakable implements Tile2 {
   isLock2: boolean = false;
 }
 
-class Player implements Tile2 {
+class Player implements Tile {
   isAir: boolean = false;
   isFlux: boolean = false;
   isUnbreakable: boolean = false;
@@ -89,7 +89,7 @@ class Player implements Tile2 {
   isLock2: boolean = false;
 }
 
-class Stone implements Tile2 {
+class Stone implements Tile {
   isAir: boolean = false;
   isFlux: boolean = false;
   isUnbreakable: boolean = false;
@@ -104,7 +104,7 @@ class Stone implements Tile2 {
   isLock2: boolean = false;
 }
 
-class FallingStone implements Tile2 {
+class FallingStone implements Tile {
   isAir: boolean = false;
   isFlux: boolean = false;
   isUnbreakable: boolean = false;
@@ -119,7 +119,7 @@ class FallingStone implements Tile2 {
   isLock2: boolean = false;
 }
 
-class Box implements Tile2 {
+class Box implements Tile {
   isAir: boolean = false;
   isFlux: boolean = false;
   isUnbreakable: boolean = false;
@@ -134,7 +134,7 @@ class Box implements Tile2 {
   isLock2: boolean = false;
 }
 
-class FallingBox implements Tile2 {
+class FallingBox implements Tile {
   isAir: boolean = false;
   isFlux: boolean = false;
   isUnbreakable: boolean = false;
@@ -149,7 +149,7 @@ class FallingBox implements Tile2 {
   isLock2: boolean = false;
 }
 
-class Key1 implements Tile2 {
+class Key1 implements Tile {
   isAir: boolean = false;
   isFlux: boolean = false;
   isUnbreakable: boolean = false;
@@ -164,7 +164,7 @@ class Key1 implements Tile2 {
   isLock2: boolean = false;
 }
 
-class Key2 implements Tile2 {
+class Key2 implements Tile {
   isAir: boolean = false;
   isFlux: boolean = false;
   isUnbreakable: boolean = false;
@@ -179,7 +179,7 @@ class Key2 implements Tile2 {
   isLock2: boolean = false;
 }
 
-class Lock1 implements Tile2 {
+class Lock1 implements Tile {
   isAir: boolean = false;
   isFlux: boolean = false;
   isUnbreakable: boolean = false;
@@ -194,7 +194,7 @@ class Lock1 implements Tile2 {
   isLock2: boolean = false;
 }
 
-class Lock2 implements Tile2 {
+class Lock2 implements Tile {
   isAir: boolean = false;
   isFlux: boolean = false;
   isUnbreakable: boolean = false;
@@ -222,6 +222,48 @@ let rawMap: RawTile[][] = [
   [2, 2, 2, 2, 2, 2, 2, 2],
 ];
 
+let map: Tile[][];
+function transformTile(tile: RawTile) {
+  switch (tile) {
+    case Tile.Air:
+      return new Air();
+    case RawTile.Flux:
+      return new Flux();
+    case RawTile.Unbreakable:
+      return new Unbreakable();
+    case RawTile.Player:
+      return new Player();
+    case RawTile.Stone:
+      return new Stone();
+    case RawTile.FallingStone:
+      return new FallingStone();
+    case RawTile.Box:
+      return new Box();
+    case RawTile.FallingBox:
+      return new FallingBox();
+    case RawTile.Key1:
+      return new Key1();
+    case RawTile.Key2:
+      return new Key2();
+    case RawTile.Lock1:
+      return new Lock1();
+    case RawTile.Lock2:
+      return new Lock2();
+    default: return new Air();
+  }
+  
+}
+
+function transformMap(){
+  map = new Array(rawMap.length);
+  for (let y = 0; y < rawMap.length; y++) {
+    map[y] = new Array(rawMap[y].length);
+    for (let x = 0; x < rawMap[y].length; x++) {
+      map[y][x] = transformTile(rawMap[y][x]);
+    }
+  }
+}
+  
 let inputs: Input[] = [];
 
 function removeLock1() {
@@ -296,91 +338,6 @@ function handleInputs() {
 }
 
 function handleInput(input: Input) {
-<<<<<<< HEAD
-  input.handle();
-}
-
-interface Input {
-  // isRight(): boolean;
-  // isLeft(): boolean;
-  // isUp(): boolean;
-  // isDown(): boolean;
-  handle(): void;
-}
-
-class Right implements Input {
-  // isRight() {
-  //   return true;
-  // }
-  // isLeft() {
-  //   return false;
-  // }
-  // isUp() {
-  //   return false;
-  // }
-  // isDown() {
-  //   return false;
-  // }
-  handle() {
-    moveHorizontal(1);
-  }
-}
-
-class Left implements Input {
-  // isRight() {
-  //   return false;
-  // }
-  // isLeft() {
-  //   return true;
-  // }
-  // isUp() {
-  //   return false;
-  // }
-  // isDown() {
-  //   return false;
-  // }
-  handle() {
-    moveHorizontal(-1);  
-  }
-}
-  
-class Up implements Input {
-  // isRight() {
-  //   return false;
-  // }
-  // isLeft() {
-  //   return false;
-  // }
-  // isUp() {
-  //   return true;
-  // }
-  // isDown() {
-  //   return false;
-  // }
-  handle() {    
-      moveVertical(-1);    
-    }
-}
-
-class Down implements Input {
-  // isRight() {
-  //   return false;
-  // }
-  // isLeft() {
-  //   return false;
-  // }
-  // isUp() {
-  //   return false;
-  // }
-  // isDown() {
-  //   return true;
-  // }
-  handle() {    
-      moveVertical(1);    
-    }  
-}
-
-=======
   if (input === Input.LEFT)
       moveHorizontal(-1);
     else if (input === Input.RIGHT)
@@ -391,7 +348,6 @@ class Down implements Input {
       moveVertical(1);
 }
 
->>>>>>> 64fd8c61dac00a893179c7b494b753c97db9131b
 function updateMap() {
   for (let y = map.length - 1; y >= 0; y--) {
     for (let x = 0; x < map[y].length; x++) {
@@ -508,18 +464,11 @@ function colorOfTile(y: number, x: number, g: CanvasRenderingContext2D) {
     g.fillStyle = "#00ccff";
 }
 
-<<<<<<< HEAD
-function drawPlayer(g: CanvasRenderingContext2D) {
-  g.fillStyle = "#ff0000";
-  g.fillRect(playerx * TILE_SIZE, playery * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-}
-=======
   function drawPlayer(g: CanvasRenderingContext2D) {
     g.fillStyle = "#ff0000";
     g.fillRect(playerx * TILE_SIZE, playery * TILE_SIZE, TILE_SIZE, TILE_SIZE);
   }
 
->>>>>>> 64fd8c61dac00a893179c7b494b753c97db9131b
 
 function gameLoop() {
   let before = Date.now();
@@ -532,6 +481,7 @@ function gameLoop() {
 }
 
 window.onload = () => {
+  transformMap();
   gameLoop();
 }
 
