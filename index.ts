@@ -296,6 +296,7 @@ function handleInputs() {
 }
 
 function handleInput(input: Input) {
+<<<<<<< HEAD
   input.handle();
 }
 
@@ -379,14 +380,50 @@ class Down implements Input {
     }  
 }
 
+=======
+  if (input === Input.LEFT)
+      moveHorizontal(-1);
+    else if (input === Input.RIGHT)
+      moveHorizontal(1);
+    else if (input === Input.UP)
+      moveVertical(-1);
+    else if (input === Input.DOWN)
+      moveVertical(1);
+}
+
+>>>>>>> 64fd8c61dac00a893179c7b494b753c97db9131b
 function updateMap() {
   for (let y = map.length - 1; y >= 0; y--) {
     for (let x = 0; x < map[y].length; x++) {
       updateTile(x, y);
     }
   }
+<<<<<<< HEAD
+=======
 }
 
+function updateTile(x: number, y: number) {
+  if ((map[y][x] === Tile.STONE || map[y][x] === Tile.FALLING_STONE)
+        && map[y + 1][x] === Tile.AIR) {
+        map[y + 1][x] = Tile.FALLING_STONE;
+        map[y][x] = Tile.AIR;
+      } else if ((map[y][x] === Tile.BOX || map[y][x] === Tile.FALLING_BOX)
+        && map[y + 1][x] === Tile.AIR) {
+        map[y + 1][x] = Tile.FALLING_BOX;
+        map[y][x] = Tile.AIR;
+      } else if (map[y][x] === Tile.FALLING_STONE) {
+        map[y][x] = Tile.STONE;
+      } else if (map[y][x] === Tile.FALLING_BOX) {
+        map[y][x] = Tile.BOX;
+      }
+>>>>>>> 64fd8c61dac00a893179c7b494b753c97db9131b
+}
+  
+
+  
+
+
+<<<<<<< HEAD
 function updateTile(x: number, y: number) {
   if ((map[y][x].isSTONE || map[y][x].isFallingStone())
     && map[y + 1][x].isAIR()) {
@@ -403,12 +440,15 @@ function updateTile(x: number, y: number) {
   }
 }
 
+=======
+>>>>>>> 64fd8c61dac00a893179c7b494b753c97db9131b
 function createGraphics() {
   let canvas = document.getElementById("GameCanvas") as HTMLCanvasElement;
   let g = canvas.getContext("2d");
   g.clearRect(0, 0, canvas.width, canvas.height);
   return g;
 }
+<<<<<<< HEAD
 
 function draw() {
   let g = createGraphics();
@@ -422,6 +462,33 @@ function drawMap(g: CanvasRenderingContext2D) {
       colorOfTile(y, x, g);
       if (!map[y][x].isAir() && !map[y][x].isPlayer())
         g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+=======
+
+function draw(){
+  let g = createGraphics();
+  drawMap(g);
+  drawPlayer(g);
+}
+  function drawMap(g: CanvasRenderingContext2D) {
+    for (let y = 0; y < map.length; y++) {
+      for (let x = 0; x < map[y].length; x++) {
+        if (map[y][x] === Tile.FLUX)
+          g.fillStyle = "#ccffcc";
+        else if (map[y][x] === Tile.UNBREAKABLE)
+          g.fillStyle = "#999999";
+        else if (map[y][x] === Tile.STONE || map[y][x] === Tile.FALLING_STONE)
+          g.fillStyle = "#0000cc";
+        else if (map[y][x] === Tile.BOX || map[y][x] === Tile.FALLING_BOX)
+          g.fillStyle = "#8b4513";
+        else if (map[y][x] === Tile.KEY1 || map[y][x] === Tile.LOCK1)
+          g.fillStyle = "#ffcc00";
+        else if (map[y][x] === Tile.KEY2 || map[y][x] === Tile.LOCK2)
+          g.fillStyle = "#00ccff";
+  
+        if (map[y][x] !== Tile.AIR && map[y][x] !== Tile.PLAYER)
+          g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+      }
+>>>>>>> 64fd8c61dac00a893179c7b494b753c97db9131b
     }
   }
 }
@@ -441,15 +508,23 @@ function colorOfTile(y: number, x: number, g: CanvasRenderingContext2D) {
     g.fillStyle = "#00ccff";
 }
 
+<<<<<<< HEAD
 function drawPlayer(g: CanvasRenderingContext2D) {
   g.fillStyle = "#ff0000";
   g.fillRect(playerx * TILE_SIZE, playery * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 }
+=======
+  function drawPlayer(g: CanvasRenderingContext2D) {
+    g.fillStyle = "#ff0000";
+    g.fillRect(playerx * TILE_SIZE, playery * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+  }
+
+>>>>>>> 64fd8c61dac00a893179c7b494b753c97db9131b
 
 function gameLoop() {
   let before = Date.now();
   update();
-  draw();
+  createGraphics();
   let after = Date.now();
   let frameTime = after - before;
   let sleep = SLEEP - frameTime;
